@@ -1,0 +1,65 @@
+import torch  # <-- ЭТО СТРОКА БЫЛА ПРОПУЩЕНА
+import torch.nn as nn  # <-- И ЭТА ТОЖЕ
+
+from dual_attention.core.tensor import DualTensor
+from dual_attention.core.functions import dual_softmax
+from dual_attention.layers.linear import DualLinear
+
+
+class DualSelfAttention(torch.nn.Module):
+    def __init__(self, embed_dim, num_heads=1):
+        super().__init__()
+        self.embed_dim = embed_dim
+        self.num_heads = num_heads
+        self.scale = embed_dim ** -0.5
+
+        self.W_q = DualLinear(embed_dim, embed_dim)
+        self.W_k = DualLinear(embed_dim, embed_dim)
+        self.W_v = DualLinear(embed_dim, embed_dim)
+        self.W_o = DualLinear(embed_dim, embed_dim)
+
+    def forward(self, x: DualTensor) -> DualTensor:
+        q = self.W_q(x)
+        k = self.W_k(x)
+        v = self.W_v(x)
+
+        logits = (q @ k.transpose(-2, -1)) * self.scale
+        attn_real, attn_dual = dual_softmax(logits)
+        attn = DualTensor(attn_real, attn_dual)
+
+        out = attn @ v
+        out = self.W_o(out)
+
+        return out
+fnano dual_attention/layers/attention.py
+
+from dual_attention.core.tensor import DualTensor
+from dual_attention.core.functions import dual_softmax
+from dual_attention.layers.linear import DualLinear
+
+
+class DualSelfAttention(torch.nn.Module):
+    def __init__(self, embed_dim, num_heads=1):
+        super().__init__()
+        self.embed_dim = embed_dim
+        self.num_heads = num_heads
+        self.scale = embed_dim ** -0.5
+
+        self.W_q = DualLinear(embed_dim, embed_dim)
+        self.W_k = DualLinear(embed_dim, embed_dim)
+        self.W_v = DualLinear(embed_dim, embed_dim)
+        self.W_o = DualLinear(embed_dim, embed_dim)
+
+    def forward(self, x: DualTensor) -> DualTensor:
+        q = self.W_q(x)
+        k = self.W_k(x)
+        v = self.W_v(x)
+
+        logits = (q @ k.transpose(-2, -1)) * self.scale
+        attn_real, attn_dual = dual_softmax(logits)
+        attn = DualTensor(attn_real, attn_dual)
+
+        out = attn @ v
+        out = self.W_o(out)
+
+        return out
