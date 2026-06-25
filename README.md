@@ -1,6 +1,31 @@
+## Установка
+
+### 1. Клонировать репозиторий
+
+```bash
+git clone https://github.com/nordllichterrr/dual_attention_NLP.git
+cd dual_attention_NLP
+```
+
+### 2. Создать и активировать виртуальное окружение
+
+```bash
+python3 -m venv venv
+source venv/bin/activate      # macOS/Linux
+# venv\Scripts\activate       # Windows
+```
+
+### 3. Установить зависимости
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
 ## Запуск экспериментов
 
-Все команды выполняются из корневой папки проекта. Эксперименты разделены по типам архитектур и диагностическим задачам.
+Все команды выполняются из корневой папки проекта.
 
 ### Обучение моделей
 
@@ -15,29 +40,28 @@ python experiments/train_norm.py
 python experiments/train_norm_cls.py
 ```
 
-### Диагностические эксперименты (Ablation)
+### Ablation (зануление b-компоненты)
 
 ```bash
-# Ablation для базовой архитектуры
+# Для базовой архитектуры
 python experiments/ablation.py
 
-# Ablation для архитектуры с нормой в attention
+# Для архитектуры с нормой в attention
 python experiments/ablation_norm.py
 
-# Ablation для исправленной архитектуры (с нормой в классификаторе)
+# Для исправленной архитектуры (с нормой в классификаторе)
 python experiments/ablation_norm_cls.py
 ```
 
-### Диагностические эксперименты (Анализ градиентов)
+### Анализ градиентов
 
 ```bash
-# Анализ градиентов для базовой архитектуры
+# Для базовой архитектуры
 python experiments/gradient_analysis.py
 
-# Анализ градиентов для архитектуры с нормой в attention
+# Для архитектуры с нормой в attention
 python experiments/gradient_analysis_norm.py
 
-# Анализ градиентов для исправленной архитектуры (с нормой в классификаторе)
+# Для исправленной архитектуры (с нормой в классификаторе)
 python experiments/gradient_analysis_norm_cls.py
 ```
-
