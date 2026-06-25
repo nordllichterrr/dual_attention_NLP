@@ -41,10 +41,3 @@ python experiments/gradient_analysis_norm.py
 python experiments/gradient_analysis_norm_cls.py
 ```
 
-### Запуск всех экспериментов одной командой
-
-Если вы хотите выполнить все эксперименты последовательно, используйте скрипт:
-
-```bash
-bash scripts/run_all.sh
-```
