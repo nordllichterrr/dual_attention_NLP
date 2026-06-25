@@ -48,5 +48,3 @@ python experiments/gradient_analysis_norm_cls.py
 ```bash
 bash scripts/run_all.sh
 ```
-
-> **Примечание:** Если файла `scripts/run_all.sh` нет в вашем репозитории, вы можете создать его самостоятельно, перечислив в нём все вышеуказанные команды.
