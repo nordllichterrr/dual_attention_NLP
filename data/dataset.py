@@ -12,14 +12,20 @@ class DualSequenceDataset(Dataset):
         rng = np.random.RandomState(seed)
         half = n_samples // 2
 
+        # Положительные: есть повторяющийся токен (кроме первого и последнего)
         pos = rng.randint(0, vocab_size, size=(half, seq_len))
-        pos[:, 0] = pos[:, -1]
-
-        neg = rng.randint(0, vocab_size, size=(half, seq_len))
-        neg[:, 0] = rng.randint(0, vocab_size, size=half)
         for i in range(half):
-            last = (neg[i, 0] + rng.randint(1, vocab_size)) % vocab_size
-            neg[i, -1] = last
+            idx1 = rng.randint(1, seq_len - 2)
+            idx2 = rng.randint(1, seq_len - 2)
+            pos[i, idx2] = pos[i, idx1]
+
+        # Отрицательные: все токены уникальны (кроме первого и последнего)
+        neg = np.zeros((half, seq_len), dtype=np.int64)
+        for i in range(half):
+            mid_tokens = rng.choice(vocab_size, size=seq_len - 2, replace=False)
+            neg[i, 0] = rng.randint(0, vocab_size)
+            neg[i, -1] = rng.randint(0, vocab_size)
+            neg[i, 1:-1] = mid_tokens
 
         data = np.vstack([pos, neg])
         labels = np.array([1] * half + [0] * half)

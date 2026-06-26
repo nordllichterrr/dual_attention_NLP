@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-
 from dual_attention.core.tensor import DualTensor
 
 

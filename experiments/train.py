@@ -50,17 +50,15 @@ def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     logger.info(f"Device: {device}")
 
-    # Гиперпараметры
     BATCH_SIZE = 64
     EPOCHS = 100
     LR = 1e-3
     SEED = 42
     EMBED_DIM = 64
-    NUM_HEADS = 4  
+    NUM_HEADS = 4
 
     torch.manual_seed(SEED)
 
-    # Данные
     train_ds = DualSequenceDataset(10000, seed=SEED)
     valid_ds = DualSequenceDataset(2000, seed=SEED + 1)
     test_ds = DualSequenceDataset(2000, seed=SEED + 2)
@@ -69,7 +67,6 @@ def main():
     valid_loader = DataLoader(valid_ds, BATCH_SIZE)
     test_loader = DataLoader(test_ds, BATCH_SIZE)
 
-    # Модели
     dual_model = DualClassifier(32, 16, EMBED_DIM, NUM_HEADS).to(device)
     real_model = RealBaseline(32, 16, EMBED_DIM, NUM_HEADS).to(device)
 
@@ -80,7 +77,6 @@ def main():
     opt_real = torch.optim.Adam(real_model.parameters(), lr=LR)
     crit = nn.CrossEntropyLoss()
 
-    # Обучение Dual модели 
     logger.info("Training Dual Model")
     best_dual_acc = 0.0
     for epoch in range(1, EPOCHS + 1):
@@ -92,7 +88,6 @@ def main():
         if epoch % 10 == 0:
             logger.info(f"Epoch {epoch}: train_loss={train_loss:.4f}, val_acc={val_acc:.4f}")
 
-    # Обучение Real baseline
     logger.info("Training Real Baseline")
     best_real_acc = 0.0
     for epoch in range(1, EPOCHS + 1):
@@ -104,7 +99,6 @@ def main():
         if epoch % 10 == 0:
             logger.info(f"Epoch {epoch}: train_loss={train_loss:.4f}, val_acc={val_acc:.4f}")
 
-    # Финальное тестирование 
     dual_model.load_state_dict(torch.load("logs/best_dual.pt"))
     real_model.load_state_dict(torch.load("logs/best_real.pt"))
 
@@ -116,7 +110,6 @@ def main():
     logger.info(f"Real Baseline: {real_acc * 100:.2f}%")
     logger.info(f"Dual Model: {dual_acc * 100:.2f}%")
 
-    # Диагностический вывод
     if dual_acc > real_acc:
         logger.info("✓ Dual модель превосходит Real baseline")
     elif abs(dual_acc - real_acc) < 0.01:

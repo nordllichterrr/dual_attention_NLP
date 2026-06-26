@@ -1,13 +1,11 @@
 import torch
 import torch.nn as nn
-
 from dual_attention.core.tensor import DualTensor
 from dual_attention.layers.attention import DualSelfAttention
 from dual_attention.layers.pooling import DualAvgPool
 
 
 class DualClassifier(nn.Module):
-    # Классификатор с одним слоем дуального многоголового self-attention.
     def __init__(self, vocab_size, seq_len, embed_dim=64, num_heads=4):
         super().__init__()
         self.embed = nn.Embedding(vocab_size, embed_dim)
@@ -25,7 +23,6 @@ class DualClassifier(nn.Module):
 
 
 class RealBaseline(nn.Module):
-    # Действительный baseline с одним слоем многоголового self-attention.
     def __init__(self, vocab_size, seq_len, embed_dim=64, num_heads=4):
         super().__init__()
         self.embed = nn.Embedding(vocab_size, embed_dim)

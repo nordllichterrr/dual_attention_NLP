@@ -1,8 +1,5 @@
-# Dual numbers: z = real + α * dual, where α² = 0
-
 from dataclasses import dataclass
 from typing import Union
-
 import torch
 from torch import Tensor
 
