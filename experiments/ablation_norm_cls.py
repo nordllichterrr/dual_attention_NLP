@@ -64,11 +64,11 @@ def main():
     BATCH_SIZE = 64
     EPOCHS = 100
     LR = 1e-3
-    WEIGHT_DECAY = 1e-4
     SEED = 42
     EMBED_DIM = 64
     NUM_HEADS = 4
-    DROPOUT = 0.3
+    DROPOUT = 0.1
+    WEIGHT_DECAY = 1e-5
 
     torch.manual_seed(SEED)
 
@@ -144,13 +144,6 @@ def main():
     logger.info(f"Full model:   {full_acc * 100:.2f}%")
     logger.info(f"Ablation (b=0): {ablation_acc * 100:.2f}%")
     logger.info(f"Difference: {diff * 100:.2f} pp")
-
-    if diff > 0.02:
-        logger.info("b-component CONTRIBUTES POSITIVELY to quality")
-    elif diff < -0.02:
-        logger.info("b-component HURTS quality (acts as noise)")
-    else:
-        logger.info("b-component DOES NOT AFFECT quality")
 
 
 if __name__ == "__main__":
