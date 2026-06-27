@@ -64,11 +64,11 @@ def main():
     BATCH_SIZE = 64
     EPOCHS = 100
     LR = 1e-3
+    WEIGHT_DECAY = 1e-4
     SEED = 42
     EMBED_DIM = 64
     NUM_HEADS = 4
-    DROPOUT = 0.1
-    WEIGHT_DECAY = 1e-5
+    DROPOUT = 0.3
 
     torch.manual_seed(SEED)
 

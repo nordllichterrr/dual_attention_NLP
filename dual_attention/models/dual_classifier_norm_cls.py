@@ -8,7 +8,7 @@ from dual_attention.layers.pooling import DualAvgPool
 
 
 class DualClassifierWithNormClassifier(nn.Module):
-    def __init__(self, vocab_size, seq_len, embed_dim=64, num_heads=4, dropout=0.1):
+    def __init__(self, vocab_size, seq_len, embed_dim=64, num_heads=4, dropout=0.3):
         super().__init__()
         self.embed = nn.Embedding(vocab_size, embed_dim)
         self.attn = DualSelfAttention(embed_dim, num_heads=num_heads)

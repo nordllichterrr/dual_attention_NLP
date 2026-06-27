@@ -54,11 +54,11 @@ def main():
     BATCH_SIZE = 64
     EPOCHS = 100
     LR = 1e-3
-    WEIGHT_DECAY = 1e-5
+    WEIGHT_DECAY = 1e-4
     SEED = 42
     EMBED_DIM = 64
     NUM_HEADS = 4
-    DROPOUT = 0.1
+    DROPOUT = 0.3
 
     torch.manual_seed(SEED)
 
@@ -79,7 +79,7 @@ def main():
     opt_real = torch.optim.Adam(real_model.parameters(), lr=LR)
     crit = nn.CrossEntropyLoss()
 
-    logger.info("Training Dual Model with Norm in Classifier (dropout=0.1, weight_decay=1e-5)")
+    logger.info("Training Dual Model with Norm in Classifier (dropout=0.3, weight_decay=1e-4)")
     best_acc = 0.0
     best_epoch = 0
     patience = 20
